@@ -12,7 +12,7 @@ function startRekitStudio(port) {
   return new Promise((resolve, reject) => {
     const app = express();
     const server = http.createServer(app);
-    const root = path.join(__dirname, '../node_modules/rekit-studio/dist');
+    const root = path.join(__dirname, '../node_modules/rekit-studio/build');
     app.use(rekitStudioMiddleWare()(server, app));
     app.use(express.static(root));
     app.use(fallback('index.html', { root }));
