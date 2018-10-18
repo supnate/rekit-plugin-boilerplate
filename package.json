@@ -71,7 +71,7 @@
   "rekit": {
     "devPort": 6075,
     "studioPort": 6076,
-    "plugins": [],
+    "plugins": ["/Users/pwang7/workspace/rekit/packages/rekit-studio/src/features/plugin-cra"],
     "css": "less"
   },
   "jest": {
