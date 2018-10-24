@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Button } from 'antd';
 import * as actions from './redux/actions';
-import { fetchProjectData } from 'rs/features/home/redux/fetchProjectData';
+// import { fetchProjectData } from '../home/redux/fetchProjectData';
+export const fetchProjectData = () => {};
 
 export class DefaultPage extends Component {
   static propTypes = {
@@ -14,7 +15,7 @@ export class DefaultPage extends Component {
   };
 
   render() {
-    fetchProjectData();
+    // fetchProjectData();
     return (
       <div className="home-default-page">
         <header className="app-header">

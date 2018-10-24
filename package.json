@@ -53,7 +53,6 @@
     "redux-logger": "^3.0.6",
     "redux-mock-store": "^1.5.1",
     "redux-thunk": "^2.2.0",
-    "rekit-core": "^2.3.0",
     "rekit-studio": "^2.3.0",
     "style-loader": "0.19.0",
     "sw-precache-webpack-plugin": "0.11.4",
@@ -71,7 +70,9 @@
   "rekit": {
     "devPort": 6075,
     "studioPort": 6076,
-    "plugins": ["/Users/pwang7/workspace/rekit/packages/rekit-studio/src/features/plugin-cra"],
+    "plugins": [
+      "/Users/pwang7/workspace/rekit/packages/rekit-studio/src/features/plugin-cra"
+    ],
     "css": "less"
   },
   "jest": {
@@ -111,5 +112,8 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "description": "rekit-plugin-boilerplate created by Rekit."
+  "description": "rekit-plugin-boilerplate created by Rekit.",
+  "devDependencies": {
+    "antd": "^3.10.1"
+  }
 }
