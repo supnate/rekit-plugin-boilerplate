@@ -27,8 +27,7 @@ module.exports = function(proxy, allowedHost) {
     // So we will disable the host check normally, but enable it if you have
     // specified the `proxy` setting. Finally, we let you override it if you
     // really know what you're doing with a special environment variable.
-    disableHostCheck:
-      !proxy || process.env.DANGEROUSLY_DISABLE_HOST_CHECK === 'true',
+    disableHostCheck: !proxy || process.env.DANGEROUSLY_DISABLE_HOST_CHECK === 'true',
     // Enable gzip compression of generated files.
     compress: true,
     // Silence WebpackDevServer's own logs since they're generally not useful.
@@ -57,9 +56,14 @@ module.exports = function(proxy, allowedHost) {
     // in the Webpack development configuration. Note that only changes
     // to CSS are currently hot reloaded. JS changes will refresh the browser.
     hot: true,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+      'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization',
+    },
     // It is important to tell WebpackDevServer to use the same "root" path
     // as we specified in the config. In development, we always serve from /.
-    publicPath: config.output.publicPath,
+    publicPath: 'http://localhost:6080/',
     // WebpackDevServer is noisy by default so we emit custom message instead
     // by listening to the compiler events with `compiler.plugin` calls above.
     quiet: true,
@@ -83,7 +87,7 @@ module.exports = function(proxy, allowedHost) {
     proxy,
     before(app) {
       // This lets us open files from the runtime error overlay.
-      app.use(errorOverlayMiddleware());
+      // app.use(errorOverlayMiddleware());
       // This service worker file is effectively a 'no-op' that will reset any
       // previous service worker registered for the same host:port combination.
       // We do this in development to avoid hitting the production cache if

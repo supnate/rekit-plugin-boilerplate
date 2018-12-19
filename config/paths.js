@@ -38,6 +38,7 @@ function getServedPath(appPackageJson) {
 
 // config after eject: we're in ./config/
 module.exports = {
+  resolveApp,
   dotenv: resolveApp('.env'),
   appBuild: resolveApp('build'),
   appPublic: resolveApp('public'),
@@ -46,6 +47,7 @@ module.exports = {
   appIndexStyle: resolveApp('src/styles/index.less'),
   appPackageJson: resolveApp('package.json'),
   appSrc: resolveApp('src'),
+  appRoot: resolveApp('.'),
   yarnLockFile: resolveApp('yarn.lock'),
   testsSetup: resolveApp('src/setupTests.js'),
   appNodeModules: resolveApp('node_modules'),

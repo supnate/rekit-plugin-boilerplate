@@ -45,7 +45,7 @@
     "react": "^16.2.0",
     "react-dev-utils": "^5.0.0",
     "react-dom": "^16.2.0",
-    "react-hot-loader": "^4.0.0",
+    "react-hot-loader": "4.3.11",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "5.0.0-alpha.9",
@@ -63,15 +63,21 @@
     "whatwg-fetch": "2.0.3"
   },
   "scripts": {
-    "start": "rekit-studio",
+    "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom"
   },
   "rekit": {
-    "devPort": 6075,
-    "studioPort": 6076,
-    "plugins": [
-      "/Users/pwang7/workspace/rekit/packages/rekit-studio/src/features/plugin-cra"
+    "devPort": 6080,
+    "studioPort": 6081,
+    "plugins": [],
+    "files": [
+      "package.json"
+    ],
+    "folders": [
+      "build",
+      "config",
+      "scripts"
     ],
     "css": "less"
   },
@@ -114,6 +120,7 @@
   },
   "description": "rekit-plugin-boilerplate created by Rekit.",
   "devDependencies": {
-    "antd": "^3.10.1"
+    "antd": "^3.10.1",
+    "reselect": "^4.0.0"
   }
 }

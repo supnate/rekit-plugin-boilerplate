@@ -6635,7 +6635,7 @@ react-error-overlay@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-4.0.1.tgz#417addb0814a90f3a7082eacba7cee588d00da89"
 
-react-hot-loader@^4.0.0:
+react-hot-loader@4.3.11:
   version "4.3.11"
   resolved "https://registry.yarnpkg.com/react-hot-loader/-/react-hot-loader-4.3.11.tgz#fe5cf7be7700c249b58293f977c1e6e0900f0d87"
   dependencies:
@@ -7014,6 +7014,10 @@ require-uncached@^1.0.3:
 requires-port@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
+
+reselect@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/reselect/-/reselect-4.0.0.tgz#f2529830e5d3d0e021408b246a206ef4ea4437f7"
 
 resize-observer-polyfill@^1.5.0:
   version "1.5.0"
