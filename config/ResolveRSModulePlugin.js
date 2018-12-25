@@ -17,9 +17,7 @@ ResolveRSModulePlugin.prototype.apply = function(resolver) {
     if (request.path.indexOf(rsKey) >= 0) {
       const rsPath = request.path.replace(rsKey, '/src/');
       const mid = rsPath.replace(paths.appSrc, '.');
-      console.log('mid: ', mid);
       if (dllManifest.content[mid]) {
-        console.log('mid exist: ', mid);
         request.path = rsPath;
         resolver.doResolve(
           'existing-file',
