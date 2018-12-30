@@ -25,8 +25,8 @@ function addComponentTest(name, args) {
   const { connect } = args;
   const ele = parseElePath(name, 'component');
   const tplFile = connect
-    ? './templates/ConnectedComponent.js.tpl'
-    : './templates/Component.js.tpl';
+    ? './templates/ConnectedComponent.test.js.tpl'
+    : './templates/Component.test.js.tpl';
   template.generate(ele.testPath, {
     templateFile: path.join(__dirname, tplFile),
     context: Object.assign({ ele }, args.context || {}),

@@ -1,19 +1,19 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import { ${_.pascalCase(component)} } from '../../../src/features/${_.kebabCase(feature)}/${_.pascalCase(component)}';
+import { ${ele.name} } from '../../../src/features/${ele.feature}/${ele.name}';
 
-describe('${_.kebabCase(feature)}/${_.pascalCase(component)}', () => {
+describe('${ele.feature}/${ele.name}', () => {
   it('renders node with correct class name', () => {
     const props = {
-      ${_.camelCase(feature)}: {},
+      ${_.camelCase(ele.feature)}: {},
       actions: {},
     };
     const renderedComponent = shallow(
-      <${_.pascalCase(component)} {...props} />
+      <${ele.name} {...props} />
     );
 
     expect(
-      renderedComponent.find('.${_.kebabCase(feature)}-${_.kebabCase(component)}').length
+      renderedComponent.find('.${_.kebabCase(ele.feature)}-${_.kebabCase(ele.name)}').length
     ).toBe(1);
   });
 });
