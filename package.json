@@ -64,12 +64,15 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
+    "rs-dev-plugins": "rekit-studio --dev-plugins-dir /Users/pwang7/workspace/rekit-plugin-boilerplate -p 6081",
+    "rs-dist-plugins": "rekit-studio --plugins-dir /Users/pwang7/workspace/rekit-plugin-boilerplate/build -p 6082",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom"
   },
   "rekit": {
     "devPort": 6080,
     "studioPort": 6081,
+    "appType": "rekit-plugin",
     "plugins": [],
     "files": [
       "package.json"

@@ -1,6 +1,6 @@
 {
   "name": "rekit-react",
-  "appType": "rekit-react",
+  "appType": ["rekit-react", "rekit-plugin"],
   "featureFiles": [
     "src/Root.js",
     "src/features",
