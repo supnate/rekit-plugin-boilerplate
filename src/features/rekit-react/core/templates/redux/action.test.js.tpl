@@ -1,15 +1,15 @@
 import {
   ${actionType},
-} from '../../../../src/features/${_.kebabCase(feature)}/redux/constants';
+} from '../../../../src/features/${ele.feature}/redux/constants';
 
 import {
-  ${_.camelCase(action)},
+  ${ele.name},
   reducer,
-} from '../../../../src/features/${_.kebabCase(feature)}/redux/${_.camelCase(action)}';
+} from '../../../../src/features/${ele.feature}/redux/${ele.name}';
 
-describe('${_.kebabCase(feature)}/redux/${_.camelCase(action)}', () => {
-  it('returns correct action by ${_.camelCase(action)}', () => {
-    expect(${_.camelCase(action)}()).toHaveProperty('type', ${actionType});
+describe('${_.kebabCase(feature)}/redux/${ele.name}', () => {
+  it('returns correct action by ${ele.name}', () => {
+    expect(${ele.name}()).toHaveProperty('type', ${actionType});
   });
 
   it('handles action type ${actionType} correctly', () => {
