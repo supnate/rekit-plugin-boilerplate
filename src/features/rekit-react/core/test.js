@@ -60,6 +60,51 @@ function addComponentTest(name, args) {
   });
 }
 
+function removeComponentTest(elePath, args) {
+  const ele = parseElePath(elePath, 'component');
+  vio.del(ele.testPath);
+}
+
+function moveComponentTest(source, target) {
+  const sourceEle = parseElePath(source, 'component');
+  const targetEle = parseElePath(target, 'component');
+  vio.move(sourceEle.testPath, targetEle.testPath);
+
+  const oldCssClass = `.${source.feature}-${_.kebabCase(sourceEle.name)}`;
+  const newCssClass = `.${target.feature}-${_.kebabCase(targetEle.name)}`;
+
+  // Note: below string pattern binds to the test template, update here if template is changed.
+  // Two styles of imports for component and high order component like page.
+  const oldImportPath1 = `src/features/${sourceEle.feature}`;
+  const newImportPath1 = `src/features/${targetEle.feature}`;
+
+  const oldImportPath2 = `src/features/${sourceEle.feature}/${sourceEle.name}`;
+  const newImportPath2 = `src/features/${targetEle.feature}/${targetEle.name}`;
+
+  // Those without module alias
+  const oldImportPath3 = `../../../src/features/${sourceEle.feature}`;
+  const newImportPath3 = `../../../src/features/${targetEle.feature}`;
+
+  const oldImportPath4 = `../../../src/features/${sourceEle.feature}/${source.name}`;
+  const newImportPath4 = `../../../src/features/${targetEle.feature}/${target.name}`;
+
+  // Try to update describe('xxx')
+  const oldDescribe = `${sourceEle.feature}/${sourceEle.name}`;
+  const newDescribe = `${targetEle.feature}/${targetEle.name}`;
+
+  refactor.updateFile(targetEle.testPath, ast =>
+    [].concat(
+      refactor.renameImportSpecifier(ast, sourceEle.name, targetEle.name),
+      refactor.renameStringLiteral(ast, oldImportPath1, newImportPath1),
+      refactor.renameStringLiteral(ast, oldImportPath2, newImportPath2),
+      refactor.renameStringLiteral(ast, oldImportPath3, newImportPath3),
+      refactor.renameStringLiteral(ast, oldImportPath4, newImportPath4),
+      refactor.renameStringLiteral(ast, oldDescribe, newDescribe),
+      refactor.renameStringLiteral(ast, oldCssClass, newCssClass),
+    ),
+  );
+}
+
 function addActionTest(elePath, args) {
   const ele = parseElePath(elePath, 'action');
   const tplFile = args.async
@@ -75,15 +120,11 @@ function addActionTest(elePath, args) {
   });
 }
 
-function removeComponentTest(elePath, args) {
-  const ele = parseElePath(elePath, 'component');
-  vio.del(ele.testPath);
-}
 function removeActionTest(elePath, args) {
   const ele = parseElePath(elePath, 'action');
   vio.del(ele.testPath);
 }
-function moveComponentTest(source, target) {}
+
 function moveActionTest(source, target) {}
 
 module.exports = {

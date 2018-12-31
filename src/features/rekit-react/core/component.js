@@ -14,7 +14,9 @@ const { parseElePath } = utils;
 function add(elePath, args) {
   const { connect, urlPath } = args;
   const ele = parseElePath(elePath, 'component');
-  const tplFile = connect ? './templates/ConnectedComponent.js.tpl' : './templates/Component.js.tpl';
+  const tplFile = connect
+    ? './templates/ConnectedComponent.js.tpl'
+    : './templates/Component.js.tpl';
   template.generate(ele.modulePath, {
     templateFile: path.join(__dirname, tplFile),
     context: Object.assign({ ele }, args.context || {}),
@@ -38,19 +40,19 @@ function remove(elePath, args) {
 }
 
 function move(source, target, args) {
-  console.log('moving component: ', source, target);
   const sourceEle = parseElePath(source, 'component');
   const targetEle = parseElePath(target, 'component');
-  vio.move(sourceEle.modulePath, targetEle.modulePath); 
+  vio.move(sourceEle.modulePath, targetEle.modulePath);
 
   const oldCssClass = `${sourceEle.feature}-${_.kebabCase(sourceEle.name)}`;
   const newCssClass = `${targetEle.feature}-${_.kebabCase(targetEle.name)}`;
 
-  refactor.updateFile(targetEle.modulePath, ast => [].concat(
-    refactor.renameClassName(ast, sourceEle.name, targetEle.name),
-    refactor.renameCssClassName(ast, oldCssClass, newCssClass)
-  ));
-
+  refactor.updateFile(targetEle.modulePath, ast =>
+    [].concat(
+      refactor.renameClassName(ast, sourceEle.name, targetEle.name),
+      refactor.renameCssClassName(ast, oldCssClass, newCssClass),
+    ),
+  );
 
   if (sourceEle.feature === targetEle.feature) {
     entry.renameInIndex(sourceEle.feature, sourceEle.name, targetEle.name);
