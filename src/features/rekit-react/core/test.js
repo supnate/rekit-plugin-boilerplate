@@ -63,14 +63,14 @@ function addComponentTest(name, args) {
 function addActionTest(elePath, args) {
   const ele = parseElePath(elePath, 'action');
   const tplFile = args.async
-    ? './templates/asyncAction.test.js.tpl'
-    : './templates/action.test.js.tpl';
+    ? './templates/redux/asyncAction.test.js.tpl'
+    : './templates/redux/action.test.js.tpl';
 
   const actionType = getActionType(ele.feature, ele.name);
   const asyncActionTypes = getAsyncActionTypes(ele.feature, ele.name);
 
   template.generate(ele.testPath, {
-    templateFile: tplFile,
+    templateFile: path.join(__dirname, tplFile),
     context: Object.assign({ ele, actionType, asyncActionTypes }, args.context || {}),
   });
 }

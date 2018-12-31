@@ -6,14 +6,41 @@ const style = require('./style');
 const utils = require('./utils');
 
 const { vio, template, refactor } = rekit.core;
-const { parseElePath } = utils;
+const { pascalCase, getTplPath, parseElePath, getActionType, getAsyncActionTypes } = utils;
 
-// Add a component
-// elePath format: home/MyComponent, home/subFolder/MyComponent
 function add(type, name, args) {
   switch (type) {
     case 'component':
       addComponentTest(name, args);
+      break;
+    case 'action':
+      addActionTest(name, args);
+      break;
+    default:
+      break;
+  }
+}
+
+function remove(type, name, args) {
+  switch (type) {
+    case 'component':
+      removeComponentTest(name, args);
+      break;
+    case 'action':
+      removeActionTest(name, args);
+      break;
+    default:
+      break;
+  }
+}
+
+function move(type, source, target) {
+  switch (type) {
+    case 'component':
+      moveComponentTest(source, target);
+      break;
+    case 'action':
+      moveActionTest(source, target);
       break;
     default:
       break;
@@ -33,8 +60,36 @@ function addComponentTest(name, args) {
   });
 }
 
+function addActionTest(elePath, args) {
+  const ele = parseElePath(elePath, 'action');
+  const tplFile = args.async
+    ? './templates/redux/asyncAction.test.js.tpl'
+    : './templates/redux/action.test.js.tpl';
+
+  const actionType = getActionType(ele.feature, ele.name);
+  const asyncActionTypes = getAsyncActionTypes(ele.feature, ele.name);
+
+  template.generate(ele.testPath, {
+    templateFile: path.join(__dirname, tplFile),
+    context: Object.assign({ ele, actionType, asyncActionTypes }, args.context || {}),
+  });
+}
+
+function removeComponentTest(elePath, args) {
+  const ele = parseElePath(elePath, 'component');
+  vio.del(ele.testPath);
+}
+function removeActionTest(elePath, args) {
+  const ele = parseElePath(elePath, 'action');
+  vio.del(ele.testPath);
+}
+function moveComponentTest(source, target) {}
+function moveActionTest(source, target) {}
+
 module.exports = {
   add,
+  remove,
+  move,
 };
 // 'use strict';
 

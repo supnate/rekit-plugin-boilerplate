@@ -7,7 +7,7 @@ import {
   reducer,
 } from '../../../../src/features/${ele.feature}/redux/${ele.name}';
 
-describe('${_.kebabCase(feature)}/redux/${ele.name}', () => {
+describe('${ele.feature}/redux/${ele.name}', () => {
   it('returns correct action by ${ele.name}', () => {
     expect(${ele.name}()).toHaveProperty('type', ${actionType});
   });

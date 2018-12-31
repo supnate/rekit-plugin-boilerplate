@@ -52,8 +52,8 @@ function move(source, target) {
   refactor.updateFile(targetEle.modulePath, ast =>
     [].concat(
       refactor.renameFunctionName(ast, sourceEle.name, targetEle.name),
-      refactor.renameImportSpecifier(ast, oldActionType, newActionType)
-    )
+      refactor.renameImportSpecifier(ast, oldActionType, newActionType),
+    ),
   );
 
   if (sourceEle.feature === targetEle.feature) {
@@ -75,7 +75,7 @@ function move(source, target) {
 function addAsync(elePath, args = {}) {
   const ele = parseElePath(elePath, 'action');
   const actionTypes = getAsyncActionTypes(ele.feature, ele.name);
-  const tplFile = getTplPath('redux/async_action.js.tpl');
+  const tplFile = getTplPath('redux/asyncAction.js.tpl');
 
   template.generate(ele.modulePath, {
     templateFile: tplFile,
@@ -133,15 +133,15 @@ function moveAsync(source, target, args) {
       refactor.renameFunctionName(
         ast,
         `dismiss${pascalCase(sourceEle.name)}Error`,
-        `dismiss${pascalCase(targetEle.name)}Error`
+        `dismiss${pascalCase(targetEle.name)}Error`,
       ),
       refactor.renameImportSpecifier(ast, oldActionTypes.begin, newActionTypes.begin),
       refactor.renameImportSpecifier(ast, oldActionTypes.success, newActionTypes.success),
       refactor.renameImportSpecifier(ast, oldActionTypes.failure, newActionTypes.failure),
       refactor.renameImportSpecifier(ast, oldActionTypes.dismissError, newActionTypes.dismissError),
       refactor.renameIdentifier(ast, `${sourceEle.name}Pending`, `${targetEle.name}Pending`),
-      refactor.renameIdentifier(ast, `${sourceEle.name}Error`, `${targetEle.name}Error`)
-    )
+      refactor.renameIdentifier(ast, `${sourceEle.name}Error`, `${targetEle.name}Error`),
+    ),
   );
   if (sourceEle.feature === targetEle.feature) {
     // Update names in actions.js
@@ -150,7 +150,7 @@ function moveAsync(source, target, args) {
       sourceEle.feature,
       `dismiss${pascalCase(sourceEle.name)}Error`,
       `dismiss${pascalCase(targetEle.name)}Error`,
-      targetEle.name
+      targetEle.name,
     );
 
     // Update names in reducer.js
@@ -160,12 +160,12 @@ function moveAsync(source, target, args) {
     entry.renameInInitialState(
       sourceEle.feature,
       `${sourceEle.name}Pending`,
-      `${targetEle.name}Pending`
+      `${targetEle.name}Pending`,
     );
     entry.renameInInitialState(
       sourceEle.feature,
       `${sourceEle.name}Error`,
-      `${targetEle.name}Error`
+      `${targetEle.name}Error`,
     );
 
     constant.rename(sourceEle.feature, oldActionTypes.begin, newActionTypes.begin);
@@ -183,7 +183,7 @@ function moveAsync(source, target, args) {
     entry.addToActions(
       targetEle.feature,
       `dismiss${pascalCase(targetEle.name)}Error`,
-      targetEle.name
+      targetEle.name,
     );
     entry.addToReducer(targetEle.feature, targetEle.name);
     entry.addToInitialState(targetEle.feature, `${targetEle.name}Pending`, 'false');
