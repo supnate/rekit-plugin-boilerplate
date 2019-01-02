@@ -7,16 +7,14 @@ const utils = require('./utils');
 const test = require('./test');
 
 const { vio, template, refactor } = rekit.core;
-const { parseElePath } = utils;
+const { parseElePath, getTplPath } = utils;
 
 // Add a component
 // elePath format: home/MyComponent, home/subFolder/MyComponent
 function add(elePath, args) {
   const { connect, urlPath } = args;
   const ele = parseElePath(elePath, 'component');
-  const tplFile = connect
-    ? './templates/ConnectedComponent.js.tpl'
-    : './templates/Component.js.tpl';
+  const tplFile = getTplPath(connect ? 'ConnectedComponent.js.tpl' : 'Component.js.tpl');
   template.generate(ele.modulePath, {
     templateFile: path.join(__dirname, tplFile),
     context: Object.assign({ ele }, args.context || {}),

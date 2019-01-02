@@ -3,7 +3,7 @@ const _ = require('lodash');
 const utils = require('./utils');
 
 const { vio, template, refactor } = rekit.core;
-const { pascalCase, getTplPath, parseElePath, getActionType, getAsyncActionTypes } = utils;
+const { parseElePath, getActionType, getAsyncActionTypes, getTplPath } = utils;
 
 function add(type, name, args) {
   switch (type) {
@@ -48,9 +48,7 @@ function addComponentTest(name, args) {
   console.log('add component test: ', name);
   const { connect } = args;
   const ele = parseElePath(name, 'component');
-  const tplFile = connect
-    ? './templates/ConnectedComponent.test.js.tpl'
-    : './templates/Component.test.js.tpl';
+  const tplFile = getTplPath(connect ? 'ConnectedComponent.test.js.tpl' : 'Component.test.js.tpl');
   template.generate(ele.testPath, {
     templateFile: path.join(__dirname, tplFile),
     context: Object.assign({ ele }, args.context || {}),
@@ -104,9 +102,9 @@ function moveComponentTest(source, target) {
 
 function addActionTest(elePath, args) {
   const ele = parseElePath(elePath, 'action');
-  const tplFile = args.async
-    ? './templates/redux/asyncAction.test.js.tpl'
-    : './templates/redux/action.test.js.tpl';
+  const tplFile = getTplPath(
+    args.async ? 'redux/asyncAction.test.js.tpl' : 'redux/action.test.js.tpl',
+  );
 
   const actionType = getActionType(ele.feature, ele.name);
   const asyncActionTypes = getAsyncActionTypes(ele.feature, ele.name);
