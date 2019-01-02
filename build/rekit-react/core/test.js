@@ -1,8 +1,5 @@
 const path = require('path');
 const _ = require('lodash');
-const entry = require('./entry');
-const route = require('./route');
-const style = require('./style');
 const utils = require('./utils');
 
 const { vio, template, refactor } = rekit.core;
@@ -125,7 +122,117 @@ function removeActionTest(elePath, args) {
   vio.del(ele.testPath);
 }
 
-function moveActionTest(source, target) {}
+function moveActionTest(source, target) {
+  const sourceEle = parseElePath(source, 'action');
+  const targetEle = parseElePath(target, 'action');
+
+  // args = args || {};
+  // source.feature = _.kebabCase(source.feature);
+  // source.name = _.camelCase(source.name);
+  // target.feature = _.kebabCase(target.feature);
+  // target.name = _.camelCase(target.name);
+
+  // const srcPath = utils.mapReduxTestFile(source.feature, source.name);
+  // const targetPath = utils.mapReduxTestFile(target.feature, target.name);
+  vio.move(sourceEle.testPath, targetEle.testPath);
+
+  // Note: below string pattern binds to the test template, update here if template is changed.
+  // For action/reducer import
+  const oldImportPath1 = `src/features/${sourceEle.feature}/redux/${sourceEle.name}`;
+  const newImportPath1 = `src/features/${targetEle.feature}/redux/${targetEle.name}`;
+
+  // For constant import
+  const oldImportPath2 = `src/features/${sourceEle.feature}/redux/constants`;
+  const newImportPath2 = `src/features/${targetEle.feature}/redux/constants`;
+
+  // For action/reducer import
+  const oldImportPath3 = `../../../../src/features/${sourceEle.feature}/redux/${sourceEle.name}`;
+  const newImportPath3 = `../../../../src/features/${targetEle.feature}/redux/${targetEle.name}`;
+
+  // For constant import
+  const oldImportPath4 = `../../../../src/features/${sourceEle.feature}/redux/constants`;
+  const newImportPath4 = `../../../../src/features/${targetEle.feature}/redux/constants`;
+
+  // Try to update describe('xxx')
+  const oldDescribe = `${sourceEle.feature}/redux/${sourceEle.name}`;
+  const newDescribe = `${targetEle.feature}/redux/${targetEle.name}`;
+
+  // Sync action
+  const oldActionType = utils.getActionType(sourceEle.feature, sourceEle.name);
+  const newActionType = utils.getActionType(targetEle.feature, targetEle.name);
+  const oldIt1 = `returns correct action by ${sourceEle.name}`;
+  const newIt1 = `returns correct action by ${targetEle.name}`;
+
+  const oldIt2 = `handles action type ${oldActionType} correctly`;
+  const newIt2 = `handles action type ${newActionType} correctly`;
+
+  // Async action
+  const oldActionTypes = utils.getAsyncActionTypes(sourceEle.feature, sourceEle.name);
+  const newActionTypes = utils.getAsyncActionTypes(targetEle.feature, targetEle.name);
+
+  const asyncOldIt1 = `dispatches success action when ${sourceEle.name} succeeds`;
+  const asyncNewIt1 = `dispatches success action when ${targetEle.name} succeeds`;
+
+  const asyncOldIt2 = `dispatches failure action when ${sourceEle.name} fails`;
+  const asyncNewIt2 = `dispatches failure action when ${targetEle.name} fails`;
+
+  const asyncOldIt3 = `returns correct action by dismiss${_.pascalCase(sourceEle.name)}Error`;
+  const asyncNewIt3 = `returns correct action by dismiss${_.pascalCase(targetEle.name)}Error`;
+
+  const asyncOldIt4 = `handles action type ${oldActionTypes.begin} correctly`;
+  const asyncNewIt4 = `handles action type ${newActionTypes.begin} correctly`;
+
+  const asyncOldIt5 = `handles action type ${oldActionTypes.success} correctly`;
+  const asyncNewIt5 = `handles action type ${newActionTypes.success} correctly`;
+
+  const asyncOldIt6 = `handles action type ${oldActionTypes.failure} correctly`;
+  const asyncNewIt6 = `handles action type ${newActionTypes.failure} correctly`;
+
+  const asyncOldIt7 = `handles action type ${oldActionTypes.dismissError} correctly`;
+  const asyncNewIt7 = `handles action type ${newActionTypes.dismissError} correctly`;
+  // changes = changes.concat(
+  //   refactor.renameStringLiteral(ast, oldIt1, newIt1),
+  //   refactor.renameStringLiteral(ast, oldIt2, newIt2),
+  //   refactor.renameImportSpecifier(ast, oldActionType, newActionType),
+  // );
+
+  refactor.updateFile(targetEle.testPath, ast =>
+    [].concat(
+      refactor.renameImportSpecifier(ast, sourceEle.name, targetEle.name),
+      refactor.renameStringLiteral(ast, oldImportPath1, newImportPath1),
+      refactor.renameStringLiteral(ast, oldImportPath2, newImportPath2),
+      refactor.renameStringLiteral(ast, oldImportPath3, newImportPath3),
+      refactor.renameStringLiteral(ast, oldImportPath4, newImportPath4),
+      refactor.renameStringLiteral(ast, oldDescribe, newDescribe),
+      refactor.renameStringLiteral(ast, oldIt1, newIt1),
+      refactor.renameStringLiteral(ast, oldIt2, newIt2),
+      refactor.renameImportSpecifier(ast, oldActionType, newActionType),
+
+      refactor.renameImportSpecifier(
+        ast,
+        `dismiss${_.pascalCase(sourceEle.name)}Error`,
+        `dismiss${_.pascalCase(targetEle.name)}Error`,
+      ),
+      refactor.renameImportSpecifier(ast, `${oldActionTypes.begin}`, `${newActionTypes.begin}`),
+      refactor.renameImportSpecifier(ast, `${oldActionTypes.success}`, `${newActionTypes.success}`),
+      refactor.renameImportSpecifier(ast, `${oldActionTypes.failure}`, `${newActionTypes.failure}`),
+      refactor.renameImportSpecifier(
+        ast,
+        `${oldActionTypes.dismissError}`,
+        `${newActionTypes.dismissError}`,
+      ),
+      refactor.renameIdentifier(ast, `${sourceEle.name}Pending`, `${targetEle.name}Pending`),
+      refactor.renameIdentifier(ast, `${sourceEle.name}Error`, `${targetEle.name}Error`),
+      refactor.renameStringLiteral(ast, asyncOldIt1, asyncNewIt1),
+      refactor.renameStringLiteral(ast, asyncOldIt2, asyncNewIt2),
+      refactor.renameStringLiteral(ast, asyncOldIt3, asyncNewIt3),
+      refactor.renameStringLiteral(ast, asyncOldIt4, asyncNewIt4),
+      refactor.renameStringLiteral(ast, asyncOldIt5, asyncNewIt5),
+      refactor.renameStringLiteral(ast, asyncOldIt6, asyncNewIt6),
+      refactor.renameStringLiteral(ast, asyncOldIt7, asyncNewIt7),
+    ),
+  );
+}
 
 module.exports = {
   add,
@@ -193,36 +300,36 @@ module.exports = {
 //  * @alias module:test.move
 // **/
 // function move(source, target) {
-//   source.feature = _.kebabCase(source.feature);
+//   sourceEle.feature = _.kebabCase(source.feature);
 //   source.name = _.pascalCase(source.name);
-//   target.feature = _.kebabCase(target.feature);
-//   target.name = _.pascalCase(target.name);
+//   targetEle.feature = _.kebabCase(targetEle.feature);
+//   targetEle.name = _.pascalCase(target.name);
 
 //   const srcPath = utils.mapComponentTestFile(source.feature, source.name);
-//   const targetPath = utils.mapComponentTestFile(target.feature, target.name);
+//   const targetPath = utils.mapComponentTestFile(targetEle.feature, target.name);
 //   vio.move(srcPath, targetPath);
 
 //   const oldCssClass = `.${_.kebabCase(source.feature)}-${_.kebabCase(source.name)}`;
-//   const newCssClass = `.${_.kebabCase(target.feature)}-${_.kebabCase(target.name)}`;
+//   const newCssClass = `.${_.kebabCase(targetEle.feature)}-${_.kebabCase(target.name)}`;
 
 //   // Note: below string pattern binds to the test template, update here if template is changed.
 //   // Two styles of imports for component and high order component like page.
 //   const oldImportPath1 = `src/features/${_.kebabCase(source.feature)}`;
-//   const newImportPath1 = `src/features/${_.kebabCase(target.feature)}`;
+//   const newImportPath1 = `src/features/${_.kebabCase(targetEle.feature)}`;
 
 //   const oldImportPath2 = `src/features/${_.kebabCase(source.feature)}/${_.pascalCase(source.name)}`;
-//   const newImportPath2 = `src/features/${_.kebabCase(target.feature)}/${_.pascalCase(target.name)}`;
+//   const newImportPath2 = `src/features/${_.kebabCase(targetEle.feature)}/${_.pascalCase(target.name)}`;
 
 //   // Those without module alias
 //   const oldImportPath3 = `../../../src/features/${_.kebabCase(source.feature)}`;
-//   const newImportPath3 = `../../../src/features/${_.kebabCase(target.feature)}`;
+//   const newImportPath3 = `../../../src/features/${_.kebabCase(targetEle.feature)}`;
 
 //   const oldImportPath4 = `../../../src/features/${_.kebabCase(source.feature)}/${_.pascalCase(source.name)}`;
-//   const newImportPath4 = `../../../src/features/${_.kebabCase(target.feature)}/${_.pascalCase(target.name)}`;
+//   const newImportPath4 = `../../../src/features/${_.kebabCase(targetEle.feature)}/${_.pascalCase(target.name)}`;
 
 //   // Try to update describe('xxx')
 //   const oldDescribe = `${_.kebabCase(source.feature)}/${_.pascalCase(source.name)}`;
-//   const newDescribe = `${_.kebabCase(target.feature)}/${_.pascalCase(target.name)}`;
+//   const newDescribe = `${_.kebabCase(targetEle.feature)}/${_.pascalCase(target.name)}`;
 
 //   refactor.updateFile(targetPath, ast => [].concat(
 //     refactor.renameImportSpecifier(ast, source.name, target.name),
@@ -302,24 +409,24 @@ module.exports = {
 
 //   // Note: below string pattern binds to the test template, update here if template is changed.
 //   // For action/reducer import
-//   const oldImportPath1 = `src/features/${source.feature}/redux/${source.name}`;
-//   const newImportPath1 = `src/features/${target.feature}/redux/${target.name}`;
+//   const oldImportPath1 = `src/features/${source.feature}/redux/${sourceEle.name}`;
+//   const newImportPath1 = `src/features/${target.feature}/redux/${targetEle.name}`;
 
 //   // For constant import
 //   const oldImportPath2 = `src/features/${source.feature}/redux/constants`;
 //   const newImportPath2 = `src/features/${target.feature}/redux/constants`;
 
 //   // For action/reducer import
-//   const oldImportPath3 = `../../../../src/features/${source.feature}/redux/${source.name}`;
-//   const newImportPath3 = `../../../../src/features/${target.feature}/redux/${target.name}`;
+//   const oldImportPath3 = `../../../../src/features/${source.feature}/redux/${sourceEle.name}`;
+//   const newImportPath3 = `../../../../src/features/${target.feature}/redux/${targetEle.name}`;
 
 //   // For constant import
 //   const oldImportPath4 = `../../../../src/features/${source.feature}/redux/constants`;
 //   const newImportPath4 = `../../../../src/features/${target.feature}/redux/constants`;
 
 //   // Try to update describe('xxx')
-//   const oldDescribe = `${source.feature}/redux/${source.name}`;
-//   const newDescribe = `${target.feature}/redux/${target.name}`;
+//   const oldDescribe = `${source.feature}/redux/${sourceEle.name}`;
+//   const newDescribe = `${target.feature}/redux/${targetEle.name}`;
 
 //   const ast = vio.getAst(targetPath);
 //   vio.assertAst(ast, targetPath);
