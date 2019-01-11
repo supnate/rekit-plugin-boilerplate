@@ -16,7 +16,7 @@ function add(elePath, args) {
   const ele = parseElePath(elePath, 'component');
   const tplFile = getTplPath(connect ? 'ConnectedComponent.js.tpl' : 'Component.js.tpl');
   template.generate(ele.modulePath, {
-    templateFile: path.join(__dirname, tplFile),
+    templateFile: tplFile,
     context: Object.assign({ ele }, args.context || {}),
   });
 

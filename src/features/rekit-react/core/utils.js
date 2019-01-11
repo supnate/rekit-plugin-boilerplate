@@ -86,7 +86,6 @@ function getAsyncActionTypes(feature, action) {
 // Get the template file path
 function getTplPath(tpl) {
   const tplFile = path.join(__dirname, './templates', tpl);
-  if (!fs.existsSync(tplFile)) throw new Error('Can not find template: ' + tplFile);
   return tplFile;
 }
 

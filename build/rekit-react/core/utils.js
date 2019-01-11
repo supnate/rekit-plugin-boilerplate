@@ -6,10 +6,13 @@ const { config } = rekit.core;
 
 const pascalCase = _.flow(
   _.camelCase,
-  _.upperFirst
+  _.upperFirst,
 );
 
-const upperSnakeCase = _.flow(_.snakeCase, _.toUpper);
+const upperSnakeCase = _.flow(
+  _.snakeCase,
+  _.toUpper,
+);
 
 // Parse and normalize an element paths, names
 function parseElePath(elePath, type = 'component') {
@@ -81,9 +84,8 @@ function getAsyncActionTypes(feature, action) {
 }
 
 // Get the template file path
-function getTplPath(tpl) {console.log('tpl:',tpl);
+function getTplPath(tpl) {
   const tplFile = path.join(__dirname, './templates', tpl);
-  if (!fs.existsSync(tplFile)) throw new Error('Can not find template: ' + tplFile);
   return tplFile;
 }
 

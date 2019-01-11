@@ -50,7 +50,7 @@ function addComponentTest(name, args) {
   const ele = parseElePath(name, 'component');
   const tplFile = getTplPath(connect ? 'ConnectedComponent.test.js.tpl' : 'Component.test.js.tpl');
   template.generate(ele.testPath, {
-    templateFile: path.join(__dirname, tplFile),
+    templateFile: tplFile,
     context: Object.assign({ ele }, args.context || {}),
   });
 }
@@ -110,7 +110,7 @@ function addActionTest(elePath, args) {
   const asyncActionTypes = getAsyncActionTypes(ele.feature, ele.name);
 
   template.generate(ele.testPath, {
-    templateFile: path.join(__dirname, tplFile),
+    templateFile: tplFile,
     context: Object.assign({ ele, actionType, asyncActionTypes }, args.context || {}),
   });
 }

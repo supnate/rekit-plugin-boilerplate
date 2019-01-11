@@ -4,6 +4,7 @@ import * as ui from './ui';
 import route from './route';
 import reducer from './redux/reducer';
 
+console.log('rekit react plugin');
 const toExport = {
   ...ui,
   route,
@@ -11,6 +12,6 @@ const toExport = {
   name: 'rekit-react',
 };
 
-// hot(toExport);
+// // hot(toExport);
 
 window.__REKIT_PLUGINS.push(toExport);
