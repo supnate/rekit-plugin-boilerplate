@@ -39,9 +39,6 @@ function buildPlugin(pluginName) {
         printBuildError(err);
         return reject(err);
       }
-      // if (fs.existsSync(path.join(pluginDir, 'core')))
-      //   fs.copySync(path.join(pluginDir, 'core'), path.join(buildDir, 'core'));
-      // fs.copySync(path.join(pluginDir, 'package.json'), path.join(buildDir, 'package.json'));
       console.log(`${pluginName} done.`);
 
       return resolve();
