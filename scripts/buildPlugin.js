@@ -10,7 +10,7 @@ const paths = require('../config/paths');
 function buildPlugin(pluginName) {
   console.log(`Building plugin: ${pluginName}`);
   const pluginDir = path.join(__dirname, '../src/features', pluginName);
-  const buildDir = path.join(__dirname, '../build', pluginName);
+  const buildDir = path.join(pluginDir, 'build');
   const indexJs = path.join(pluginDir, 'entry.js');
   const indexStyle = path.join(pluginDir, 'style.less');
   config = {
@@ -39,9 +39,9 @@ function buildPlugin(pluginName) {
         printBuildError(err);
         return reject(err);
       }
-      if (fs.existsSync(path.join(pluginDir, 'core')))
-        fs.copySync(path.join(pluginDir, 'core'), path.join(buildDir, 'core'));
-      fs.copySync(path.join(pluginDir, 'package.json'), path.join(buildDir, 'package.json'));
+      // if (fs.existsSync(path.join(pluginDir, 'core')))
+      //   fs.copySync(path.join(pluginDir, 'core'), path.join(buildDir, 'core'));
+      // fs.copySync(path.join(pluginDir, 'package.json'), path.join(buildDir, 'package.json'));
       console.log(`${pluginName} done.`);
 
       return resolve();
