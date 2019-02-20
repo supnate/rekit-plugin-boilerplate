@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from './redux/actions';
 
-export class DefaultPage extends Component {
+export class DefaultPage2 extends Component {
   static propTypes = {
     pluginCra: PropTypes.object.isRequired,
     actions: PropTypes.object.isRequired,
@@ -36,4 +36,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(DefaultPage);
+)(DefaultPage2);
